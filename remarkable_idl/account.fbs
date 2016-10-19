@@ -1,0 +1,24 @@
+include 'define.fbs';
+namespace com.clue.fbs;
+
+table RmAccount {
+    uid:string;
+    token:int;
+    name:string;
+    profileUrl:string;
+    birth:long;
+    facebook:string;
+    google:string;
+    gameCenter:string;
+    level:int;
+    exp:int;
+    league:byte;
+    leaguePoint:int;
+    country:string;
+    lastPlayTime:long;
+}
+
+struct RmAssets {
+    gold:int;
+    ruby:int;
+}

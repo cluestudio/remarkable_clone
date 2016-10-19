@@ -1,0 +1,19 @@
+include 'define.fbs';
+namespace com.clue.fbs;
+
+table RmPlaylog {
+    pid:string;
+    player0:string;
+    player1:string;
+    winner:string;
+    name0:string;
+    leaguePoint0:short;
+    rewardPoint0:short;
+    name1:string;
+    leaguePoint1:short;
+    rewardPoint1:short;
+    birth:long;
+    playTime:int;
+    ver:string;
+    raw:[byte];
+}

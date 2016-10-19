@@ -1,0 +1,94 @@
+namespace com.clue.fbs;
+
+enum RmResultCode : int {
+    Success = 0,
+    DBError = 1,
+    NotExist = 2,
+    AlreadyExist = 3,
+    NoAsset = 4,
+    NotEnoughGold = 5,
+    NotEnoughRuby = 6,
+    OldVersion = 7,
+}
+
+enum RmUnitType : byte {
+    Hero = 0,
+    Pet = 1,
+}
+
+enum RmUnitName : short {
+    None = 0,
+    IceKnight = 1,
+    HolyArcher = 2,
+    Wizard = 3,
+    Valkyrie = 4,
+    Cannon = 5,
+    DeathCaller = 6,
+    Dullahan = 7,
+    Eros = 8,
+    Gangster = 9,
+    General = 10,
+    Gunner = 11,
+    IceQueen = 12,
+    Immortal = 13,
+    LineMan = 14,
+    Monk = 15,
+    Paoh = 16,
+    Pharaoh = 17,
+    Priest = 18,
+    SandWitch = 19,
+    Succubus = 20,
+    Thief = 21,
+    Anna = 22,
+
+    // pets
+    SkeletonBasic = 101,
+    SkeletonBow = 102,
+    SkeletonKing = 103,
+    SkeletonMage = 104,
+
+    // tower
+    Tower = 201,
+}
+
+enum RmSkillType : short {
+    None = 0,
+    IceSmash,
+    IceWhirlWind,
+    MultiArrow,
+    HolyArrow,
+    Lightning,
+    MultiBolt,
+}
+
+enum RmAbnormalType : byte {
+    None = 0,
+    Slow,
+    Iced,
+    Restrained,
+    Frozen,
+    Bleeding,
+    Berserk,
+    Charm,
+    Fear,
+}
+
+enum RmStatType : byte {
+    None = 0,
+    Health,             // 1
+    PhysicalAttack,     // 2
+    MagicalAttack,      // 3
+    PhysicalDefence,    // 4
+    MagicalDefence,     // 5
+
+    HealthBoost = 31,       // 31
+    PhysicalAttackBoost,    // 32
+    MagicalAttackBoost,     // 33
+    PhysicalDefenceBoost,   // 34
+    MagicalDefenceBoost,    // 35
+
+    MoveSpeedBoost = 61,    // 61
+    AttackSpeedBoost,       // 62
+    DamageReduce,           // 63
+    CooltimeReduce,         // 64
+}

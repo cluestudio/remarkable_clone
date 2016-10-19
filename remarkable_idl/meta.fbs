@@ -1,0 +1,105 @@
+include 'define.fbs';
+namespace com.clue.fbs;
+
+table RmsMetaSet {
+    exp4LevelUp:[RmsExp4LevelUp];
+    unitStatic:[RmsUnitStatic];
+    unitBalance:[RmsUnitBalance];
+    abnormalBalance:[RmsAbnormalBalance];
+    skillBalance:[RmsSkillBalance];
+    heroExpGet:[RmsHeroExpGet];
+    heroExpUp:[RmsHeroExpUp];
+    heroRevival:[RmsHeroRevival];
+    leagueBalance:[RmsLeagueBalance];
+    animationInfo:[RmsAnimationInfo];
+    variable:RmsVariable;
+}
+
+struct RmsExp4LevelUp {
+    level:int;
+    exp:int;
+}
+
+struct RmsUnitStatic {
+    order:int;
+    type:RmUnitType;
+    name:RmUnitName;
+    minUserLevel:int;
+    price:int;
+    skill1:RmSkillType;
+    skill2:RmSkillType;
+    skill3:RmSkillType;
+    moveSpeed:float;
+    attackCooltime:float;
+    attackRange:float;
+}
+
+struct RmsUnitBalance {
+    name:RmUnitName;
+    level:int;
+    health:float;
+    physicalAttack:float;
+    magicalAttack:float;
+    physicalDefense:float;
+    magicalDefense:float;
+}
+
+struct RmsAbnormalBalance {
+    key:int;
+    type:RmAbnormalType;
+    duration:float;
+    value:float;
+}
+
+struct RmsSkillBalance {
+    skillType:RmSkillType;
+    level:int;
+    attackScalar:float;
+    lifeTime:float;
+    coolTime:float;
+    abnormal:int;
+}
+
+struct RmsHeroExpGet {
+    type:RmUnitType;
+    exp:int;
+}
+
+struct RmsHeroExpUp {
+    level:int;
+    exp:int;
+}
+
+struct RmsHeroRevival {
+    level:int;
+    sec:int;
+}
+
+struct RmsLeagueBalance {
+    league:int;
+    point:int;
+    gold:short;
+}
+
+struct RmsAnimationInfo {
+    name:RmUnitName;
+    attackLength:float;
+    skill1Length:float;
+    skill2Length:float;
+    skill3Length:float;
+    attackCount:byte;
+    skill1Count:byte;
+    skill2Count:byte;
+    skill3Count:byte;
+}
+
+table RmsVariable {
+    playTime:short;
+    countDownTime:short;
+    minVersion:string;
+    winExp:short;
+    loseExp:short;
+    drawExp:short;
+    maxLevel:short;
+    maxLeague:short;
+}

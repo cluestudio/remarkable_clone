@@ -1,0 +1,87 @@
+include 'define.fbs';
+include 'account.fbs';
+include 'hero.fbs';
+include 'meta.fbs';
+include 'playlog.fbs';
+namespace com.clue.fbs;
+
+enum RmbMessageType : byte {
+    Error = 0,
+    Ping,
+    Pong,
+    ReqLogin,
+    ResLogin,
+    ReqHeroes,
+    ResHeroes,
+    ReqBuyHero,
+    ResBuyHero,
+    ReqRouteMatch,
+    ResRouteMatch,
+    ReqPlaylogList,
+    ResPlaylogList,
+    ReqSetName,
+    ResSetName,
+}
+
+table RmbResError {
+    code:RmResultCode;
+    message:string;
+}
+
+// apis
+//-----------------------------------------------------------------------------
+table RmbReqLogin {
+    uid:string;
+    country:string;
+    version:string;
+    metaVersion:int;
+}
+
+table RmbResLogin {
+    account:RmAccount;
+    assets:RmAssets;
+    metaVersion:int;
+    metaSet:[byte];
+}
+
+table RmbReqHeroes {
+}
+
+table RmbResHeroes {
+    heroes:[RmHero];
+}
+
+table RmbReqBuyHero {
+    name:RmUnitName;
+}
+
+table RmbResBuyHero {
+    heroes:RmHero;
+    assets:RmAssets;
+}
+
+table RmbReqRouteMatch {
+    region:string;
+    league:byte;
+}
+
+table RmbResRouteMatch {
+    host:string;
+}
+
+table RmbReqPlaylogList {
+    from:long;
+    count:int;
+}
+
+table RmbResPlaylogList {
+    logs:[RmPlaylog];
+}
+
+table RmbReqSetName {
+    name:string;
+}
+
+table RmbResSetName {
+    name:string;
+}

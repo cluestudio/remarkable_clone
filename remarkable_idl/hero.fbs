@@ -1,0 +1,9 @@
+include 'define.fbs';
+namespace com.clue.fbs;
+
+struct RmHero {
+    name:RmUnitName;
+    skin:int;
+    birth:long;
+}
+

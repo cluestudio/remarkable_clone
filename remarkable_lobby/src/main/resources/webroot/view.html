@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="../assets/js/long.min.js"></script>
+    <script src="../assets/js/bytebuffer.min.js"></script>
+    <script src="../assets/js/proto/protobuf.min.js"></script>
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      var ProtoBuf = dcodeIO.ProtoBuf;
+      var Join = ProtoBuf.loadProtoFile("../assets/idl/VL.proto").build("Join");
+      var Message = ProtoBuf.loadProtoFile("../assets/idl/VL.proto").build("Message");
+    </script>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap-theme.min.css">
+    <style>
+        body { padding:10px }
+        #messages p { padding: 10px; }
+    </style>
+</head>
+<body>
+  <div id="messages"></div>
+  <script>
+
+    // websocket
+    var socket = new WebSocket("ws://localhost:8090/vl");
+    socket.binaryType = "arraybuffer";
+
+    function join() {
+      // get token
+      var token = "";
+      var getLocation = function(href) {
+        var l = document.createElement("a");
+        l.href = href;
+        return l;
+      };
+      var l = getLocation(location.href);
+      if (typeof(l.pathname) != 'undefined') {
+          token = l.pathname.substring(5);
+      }
+
+      var join = new Join(token);
+      var joinData = join.toArrayBuffer();
+
+      var data = new Uint8Array(joinData.byteLength + 1);
+      data[0] = 2;
+      data.set(new Uint8Array(joinData), 1);
+      socket.send(data);
+    }
+
+    socket.onopen = function() {
+      console.log("onopen");
+      join();
+    };
+
+    socket.onclose = function() {
+    };
+
+    socket.onmessage = function(evt) {
+        console.log("on message");
+        try {
+          var buffer = new Uint8Array(evt.data);
+          if (buffer[0] != 1) {
+            console.log(buffer[0]);
+            return;
+          }
+          var message = Message.decode(evt.data.slice(1));
+          var txt = message.message.replace("<", "&lt;");
+          txt = txt.replace(">", "&gt;");
+          txt = txt.replace(/\n/g, "<br />");
+
+          switch (message.level) {
+            case 0: lv = "warning"; break;
+            case 1: lv = "warning"; break;
+            case 2: lv = "warning"; break;
+            case 3: lv = "info"; break;
+            case 4: lv = "danger"; break;
+            case 5: lv = "danger"; break;
+            case 6: lv = "danger"; break;
+          }
+
+          if ($("#message p").length > 500) {
+              $("#message").find('p:first').remove();
+          }
+
+          $('#messages').append($('<p class="bg-' + lv + '">').html(txt));
+          document.body.scrollTop = document.body.scrollHeight;
+        } catch (err) {
+
+        }
+    };
+
+    </script>
+  </body>
+</html>

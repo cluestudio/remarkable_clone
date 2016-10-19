@@ -1,0 +1,260 @@
+include 'define.fbs';
+include 'playlog.fbs';
+namespace com.clue.fbs;
+
+// enum
+//-----------------------------------------------------------------------------
+enum RmmMessageType : byte {
+    ReqJoin = 0,
+    ResJoin,
+    NotiJoin,
+    ReqReJoin,
+    ResReJoin,
+    NotiReJoin,
+    NotiStart,
+    ReqSync,
+    NotiSync,
+    NotiDeploy,
+    NotiDamage,
+    NotiAbnormal,
+    NotiRevival,
+    NotiLvUp,
+    NotiLeave,
+    ResSyncError,
+    NotiEnd,
+    NotiPlaylog,
+    ReqRoomList,
+    ResRoomList
+}
+
+enum RmmRoomType : byte {
+    None = 0,
+    Room1vs1,
+    Room2vs2,
+    Room3vs3,
+}
+
+enum RmmRoomState : byte {
+    Open,
+    Play,
+    Closed
+}
+
+
+// tables
+//-----------------------------------------------------------------------------
+table RmmReqJoin {
+    uid:string;
+    hero:short;
+    league:byte;
+    roomType:RmmRoomType;
+    version:string;
+    aiPlayer:RmmPlayer;
+}
+
+table RmmResJoin {
+    roomId:string;
+    playerNo:byte;
+    timestamp:long;
+    resultCode:RmResultCode;
+}
+
+table RmmReqReJoin {
+    roomId:string;
+    uid:string;
+    version:string;
+}
+
+table RmmResReJoin {
+    room:RmmRoom;
+    timestamp:long;
+    resultCode:RmResultCode;
+}
+
+table RmmNotiReJoin {
+    playerNo:byte;
+}
+
+table RmmNotiJoin {
+    player0:RmmPlayer;
+    player1:RmmPlayer;
+}
+
+table RmmNotiStart {
+    startSec:long;
+    playSec:short;
+}
+
+table RmmNotiLeave {
+    playerNo:byte;
+}
+
+table RmmReqSync {
+    playerNo:byte;
+    orders:[RmmUnitOrder];
+    hits:[RmmUnitHit];
+}
+
+table RmmResSyncError {
+    playerNo:byte;
+    reason:byte;
+}
+
+table RmmNotiSync {
+    sec:short;
+    playerNo:byte;
+    orders:[RmmUnitOrder];
+}
+
+table RmmNotiDeploy {
+    sec:short;
+    deploy:[RmmUnit];
+}
+
+table RmmNotiDamage {
+    sec:short;
+    damages:[RmmUnitDamage];
+}
+
+table RmmNotiAbnormal {
+    sec:short;
+    abnormal:[RmmAbnormal];
+}
+
+table RmmNotiRevival {
+    sec:short;
+    heroRevival:RmmUnit;
+}
+
+table RmmNotiLvUp {
+    key:short;
+    level:byte;
+    exp:short;
+}
+
+table RmmNotiEnd {
+    winner:byte;
+    player0:RmmPlayer;
+    player1:RmmPlayer;
+    reward0:RmmBattleReward;
+    reward1:RmmBattleReward;
+}
+
+table RmmNotiPlaylog {
+    logs:RmPlaylog;
+}
+
+table RmmReqRoomList {
+    pageCount:short;
+}
+
+table RmmResRoomList {
+    roomSet:[RmmRoomSet];
+}
+
+// model class
+//-----------------------------------------------------------------------------
+struct RmmVector2 {
+    x:short;
+    z:short;
+}
+
+struct RmmVector2b {
+    x:byte;
+    z:byte;
+}
+
+table RmmPlayer {
+    playerNo:byte;
+    uid:string;
+    ai:bool;
+    name:string;
+    country:string;
+    leaguePoint:short;
+    level:byte;
+    hero:short;
+    heroDeadTime:short;
+    units:[RmmUnit];
+    killHeroCount:short;
+    killPetCount:short;
+    deadCount:byte;
+    dealToHero:int;
+    dealToPet:int;
+    damageFromHero:int;
+    damageFromPet:int;
+}
+
+table RmmRoomSet {
+    league:byte;
+    openRoomCount:int;
+    playRoomCount:int;
+    openRooms:[RmmRoom];
+    playRooms:[RmmRoom];
+}
+
+table RmmRoom {
+    roomId:string;
+    league:byte;
+    state:RmmRoomState;
+    startSec:long;
+    playSec:short;
+    player0:RmmPlayer;
+    player1:RmmPlayer;
+}
+
+table RmmUnit {
+    key:short;
+    name:short;
+    level:byte;
+    exp:short;
+    type:RmUnitType;
+    hp:short;
+    position:RmmVector2;
+    direction:RmmVector2b;
+    skill1FireSec:short;
+    skill2FireSec:short;
+    skill3FireSec:short;
+    skillSpecialFireSec:short;
+    abnormalList:[RmmAbnormal];
+}
+
+struct RmmAbnormal {
+    type:RmAbnormalType;
+    from:short;
+    to:short;
+    at:short;
+    duration:short;
+    value:short;
+}
+
+struct RmmUnitOrder {
+    from:short;
+    target:short;
+    position:RmmVector2;
+    to:RmmVector2;
+    direction:RmmVector2b;
+    state:byte;
+}
+
+struct RmmUnitHit {
+    from:short;
+    to:short;
+    skillId:short;
+    rate:byte;
+    force:RmmVector2;
+}
+
+struct RmmUnitDamage {
+    from:short;
+    to:short;
+    damage:short;
+    hp:short;
+    force:RmmVector2;
+}
+
+struct RmmBattleReward {
+    exp:short;
+    league:byte;
+    leaguePoint:short;
+    gold:short;
+}
