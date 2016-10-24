@@ -27,13 +27,24 @@ public class HeroMapper {
 
     public String newHeroQuery(String db, String accountId, Hero hero) {
         return String.format(
-                "INSERT INTO `%s`.`hero` (`accountId`, `name`, `skin`, `birth`) " +
-                        "VALUES ('%s', '%d', '%d', '%d');",
+                "INSERT INTO `%s`.`hero` (`accountId`, `name`, `skin`, `birth`, `lastPlay`) " +
+                        "VALUES ('%s', '%d', '%d', '%d', '%d');",
                 db,
                 accountId,
                 hero.name,
                 hero.skin,
-                hero.birth
+                hero.birth,
+                hero.lastPlay
+        );
+    }
+
+    public String updateLastPlayQuery(String db, String accountId, short name, long lastPlay) {
+        return String.format(
+                "UPDATE `%s`.`hero` SET `lastPlay` = '%d' WHERE `accountId` = '%s' and `name` = '%d'",
+                db,
+                lastPlay,
+                accountId,
+                name
         );
     }
 
@@ -43,6 +54,7 @@ public class HeroMapper {
             hero.name = (short)(int)row.getInteger(2);
             hero.skin= row.getInteger(3);
             hero.birth = row.getLong(4);
+            hero.lastPlay = row.getLong(5);
             return hero;
         }
 
@@ -56,6 +68,7 @@ public class HeroMapper {
             hero.name = (short)(int)row.getInteger(2);
             hero.skin= row.getInteger(3);
             hero.birth = row.getLong(4);
+            hero.lastPlay = row.getLong(5);
             result.add(hero);
         }
 

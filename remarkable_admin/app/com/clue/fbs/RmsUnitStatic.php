@@ -110,13 +110,22 @@ class RmsUnitStatic extends Struct
         return $this->bb->getFloat($this->bb_pos + 32);
     }
 
+    /**
+     * @return float
+     */
+    public function GetHpRegen()
+    {
+        return $this->bb->getFloat($this->bb_pos + 36);
+    }
+
 
     /**
      * @return int offset
      */
-    public static function createRmsUnitStatic(FlatBufferBuilder $builder, $order, $type, $name, $minUserLevel, $price, $skill1, $skill2, $skill3, $moveSpeed, $attackCooltime, $attackRange)
+    public static function createRmsUnitStatic(FlatBufferBuilder $builder, $order, $type, $name, $minUserLevel, $price, $skill1, $skill2, $skill3, $moveSpeed, $attackCooltime, $attackRange, $hpRegen)
     {
-        $builder->prep(4, 36);
+        $builder->prep(4, 40);
+        $builder->putFloat($hpRegen);
         $builder->putFloat($attackRange);
         $builder->putFloat($attackCooltime);
         $builder->putFloat($moveSpeed);

@@ -5,6 +5,7 @@ import com.clue.mapper.MetaMapper;
 import com.clue.model.*;
 import com.clue.util.Version;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
@@ -27,17 +28,34 @@ public class MetaServiceImpl implements MetaService {
     final int kMaxHeroLevel = 6;
     boolean ready = false;
     Version minClientVersion = new Version();
+    final String metaChanel = "remarkable-meta-channel";
 
     public boolean isReady() {
         return ready;
     }
 
     public void initialize(Vertx vertx) {
+        queryMeta();
+        vertx.eventBus().<JsonObject>consumer("io.vertx.redis." + metaChanel, received -> {
+            queryMeta();
+        });
+
+        Service.ps.getRedis().subscribe(metaChanel, res -> {
+            logger.info("subscribe success!");
+        });
+    }
+
+    public byte[] getMetaSetBytes() {
+        return metaSet.binary;
+    }
+
+    void queryMeta() {
         String db = Service.ps.getMetaDBName();
         Service.ps.queryAtMeta(mapper.getAllQuery(db), res -> {
             if (res.succeeded()) {
                 metaSet = mapper.parseMeta(res.result());
                 hashing();
+                logger.info("meta updated!");
                 ready = true;
             }
         });

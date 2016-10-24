@@ -4,6 +4,7 @@ import com.clue.fbs.RmbMessageType;
 import com.clue.fbs.RmbResError;
 import com.clue.fbs.RmbResLogin;
 import com.clue.fbs.RmResultCode;
+import com.clue.model.AsyncResultError;
 import com.clue.model.Session;
 import com.clue.service.Service;
 import com.clue.util.VoidHandler;
@@ -32,7 +33,8 @@ public class ControllerBase {
     void runAlways(Session session, byte seqNo, AsyncResult result, VoidHandler handler) {
         if (result.failed()) {
             String message = result.cause().getMessage();
-            sendError(session, seqNo, RmResultCode.DBError, message);
+            AsyncResultError errorResult = (AsyncResultError)result;
+            sendError(session, seqNo, errorResult.getResultCode(), message);
             logger.error(message);
         }
         else {
@@ -43,13 +45,14 @@ public class ControllerBase {
     void runIfExist(Session session, byte seqNo, AsyncResult result, VoidHandler handler) {
         if (result.failed()) {
             String message = result.cause().getMessage();
-            sendError(session, seqNo, RmResultCode.DBError, message);
+            AsyncResultError errorResult = (AsyncResultError)result;
+            sendError(session, seqNo, errorResult.getResultCode(), message);
             logger.error(message);
         }
         else {
             if (result.result() == null) {
                 String message = "nothing exist!";
-                sendError(session, seqNo, RmResultCode.DBError, message);
+                sendError(session, seqNo, RmResultCode.NotExist, message);
                 logger.error(message);
                 return;
             }
@@ -61,13 +64,14 @@ public class ControllerBase {
     void runIfEmpty(Session session, byte seqNo, AsyncResult result, VoidHandler handler) {
         if (result.failed()) {
             String message = result.cause().getMessage();
-            sendError(session, seqNo, RmResultCode.DBError, message);
+            AsyncResultError errorResult = (AsyncResultError)result;
+            sendError(session, seqNo, errorResult.getResultCode(), message);
             logger.error(message);
         }
         else {
             if (result.result() != null) {
                 String message = "already exist!";
-                sendError(session, seqNo, RmResultCode.DBError, message);
+                sendError(session, seqNo, RmResultCode.AlreadyExist, message);
                 logger.error(message);
                 return;
             }

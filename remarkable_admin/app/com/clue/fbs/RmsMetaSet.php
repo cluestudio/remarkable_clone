@@ -58,7 +58,7 @@ class RmsMetaSet extends Table
     {
         $o = $this->__offset(6);
         $obj = new RmsUnitStatic();
-        return $o != 0 ? $obj->init($this->__vector($o) + $j *36, $this->bb) : null;
+        return $o != 0 ? $obj->init($this->__vector($o) + $j *40, $this->bb) : null;
     }
 
     /**
@@ -210,7 +210,7 @@ class RmsMetaSet extends Table
     {
         $o = $this->__offset(22);
         $obj = new RmsAnimationInfo();
-        return $o != 0 ? $obj->init($this->__vector($o) + $j *24, $this->bb) : null;
+        return $o != 0 ? $obj->init($this->__vector($o) + $j *52, $this->bb) : null;
     }
 
     /**
@@ -311,7 +311,7 @@ class RmsMetaSet extends Table
      */
     public static function createUnitStaticVector(FlatBufferBuilder $builder, array $data)
     {
-        $builder->startVector(36, count($data), 4);
+        $builder->startVector(40, count($data), 4);
         for ($i = count($data) - 1; $i >= 0; $i--) {
             $builder->addOffset($data[$i]);
         }
@@ -325,7 +325,7 @@ class RmsMetaSet extends Table
      */
     public static function startUnitStaticVector(FlatBufferBuilder $builder, $numElems)
     {
-        $builder->startVector(36, $numElems, 4);
+        $builder->startVector(40, $numElems, 4);
     }
 
     /**
@@ -583,7 +583,7 @@ class RmsMetaSet extends Table
      */
     public static function createAnimationInfoVector(FlatBufferBuilder $builder, array $data)
     {
-        $builder->startVector(24, count($data), 4);
+        $builder->startVector(52, count($data), 4);
         for ($i = count($data) - 1; $i >= 0; $i--) {
             $builder->addOffset($data[$i]);
         }
@@ -597,7 +597,7 @@ class RmsMetaSet extends Table
      */
     public static function startAnimationInfoVector(FlatBufferBuilder $builder, $numElems)
     {
-        $builder->startVector(24, $numElems, 4);
+        $builder->startVector(52, $numElems, 4);
     }
 
     /**

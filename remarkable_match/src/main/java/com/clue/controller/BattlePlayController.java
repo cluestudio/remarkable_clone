@@ -760,7 +760,7 @@ public class BattlePlayController {
                     toPlayer.setHeroDeadTime(playTime);
                 }
                 else {
-                    toPlayer.removeUnit(toUnitNo);
+                    toPlayer.removeUnit(to);
                 }
             }
 

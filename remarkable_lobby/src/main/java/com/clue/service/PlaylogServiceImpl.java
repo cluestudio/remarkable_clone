@@ -1,5 +1,6 @@
 package com.clue.service;
 
+import com.clue.fbs.RmResultCode;
 import com.clue.mapper.PlaylogMapper;
 import com.clue.model.AsyncResultError;
 import com.clue.model.AsyncResultSuccess;
@@ -102,13 +103,14 @@ public class PlaylogServiceImpl implements PlaylogService {
     void run(Handler handler, AsyncResult result, VoidHandler runCallback) {
         if (result.failed()) {
             logger.error(result.cause());
-            handler.handle(new AsyncResultError<>(result.cause()));
+            handler.handle(new AsyncResultError<>(RmResultCode.DBError, result.cause().toString()));
             return;
         }
 
         try {
             runCallback.handle();
         } catch (Exception e) {
+            handler.handle(new AsyncResultError<>(RmResultCode.InternalError, e.toString()));
             logger.error(DebugUtil.getStackTrace(e));
         }
     }

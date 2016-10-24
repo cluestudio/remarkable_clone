@@ -42,7 +42,8 @@ public class FlatBuilder {
         return RmHero.createRmHero(builder,
                 hero.name,
                 hero.skin,
-                hero.birth);
+                hero.birth,
+                hero.lastPlay);
     }
 
     public static int build(FlatBufferBuilder builder, Assets assets) {

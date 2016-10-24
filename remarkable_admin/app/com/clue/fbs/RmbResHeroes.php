@@ -39,7 +39,7 @@ class RmbResHeroes extends Table
     {
         $o = $this->__offset(4);
         $obj = new RmHero();
-        return $o != 0 ? $obj->init($this->__vector($o) + $j *16, $this->bb) : null;
+        return $o != 0 ? $obj->init($this->__vector($o) + $j *24, $this->bb) : null;
     }
 
     /**
@@ -89,7 +89,7 @@ class RmbResHeroes extends Table
      */
     public static function createHeroesVector(FlatBufferBuilder $builder, array $data)
     {
-        $builder->startVector(16, count($data), 8);
+        $builder->startVector(24, count($data), 8);
         for ($i = count($data) - 1; $i >= 0; $i--) {
             $builder->addOffset($data[$i]);
         }
@@ -103,7 +103,7 @@ class RmbResHeroes extends Table
      */
     public static function startHeroesVector(FlatBufferBuilder $builder, $numElems)
     {
-        $builder->startVector(16, $numElems, 8);
+        $builder->startVector(24, $numElems, 8);
     }
 
     /**

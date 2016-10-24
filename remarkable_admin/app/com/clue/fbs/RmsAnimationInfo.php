@@ -33,7 +33,7 @@ class RmsAnimationInfo extends Struct
     /**
      * @return float
      */
-    public function GetAttackLength()
+    public function GetAppearLength()
     {
         return $this->bb->getFloat($this->bb_pos + 4);
     }
@@ -41,7 +41,7 @@ class RmsAnimationInfo extends Struct
     /**
      * @return float
      */
-    public function GetSkill1Length()
+    public function GetStayLength()
     {
         return $this->bb->getFloat($this->bb_pos + 8);
     }
@@ -49,7 +49,7 @@ class RmsAnimationInfo extends Struct
     /**
      * @return float
      */
-    public function GetSkill2Length()
+    public function GetIdleLength()
     {
         return $this->bb->getFloat($this->bb_pos + 12);
     }
@@ -57,9 +57,65 @@ class RmsAnimationInfo extends Struct
     /**
      * @return float
      */
-    public function GetSkill3Length()
+    public function GetRunLength()
     {
         return $this->bb->getFloat($this->bb_pos + 16);
+    }
+
+    /**
+     * @return float
+     */
+    public function GetDamageLength()
+    {
+        return $this->bb->getFloat($this->bb_pos + 20);
+    }
+
+    /**
+     * @return float
+     */
+    public function GetVictoryLength()
+    {
+        return $this->bb->getFloat($this->bb_pos + 24);
+    }
+
+    /**
+     * @return float
+     */
+    public function GetDeadLength()
+    {
+        return $this->bb->getFloat($this->bb_pos + 28);
+    }
+
+    /**
+     * @return float
+     */
+    public function GetAttackLength()
+    {
+        return $this->bb->getFloat($this->bb_pos + 32);
+    }
+
+    /**
+     * @return float
+     */
+    public function GetSkill1Length()
+    {
+        return $this->bb->getFloat($this->bb_pos + 36);
+    }
+
+    /**
+     * @return float
+     */
+    public function GetSkill2Length()
+    {
+        return $this->bb->getFloat($this->bb_pos + 40);
+    }
+
+    /**
+     * @return float
+     */
+    public function GetSkill3Length()
+    {
+        return $this->bb->getFloat($this->bb_pos + 44);
     }
 
     /**
@@ -67,7 +123,7 @@ class RmsAnimationInfo extends Struct
      */
     public function GetAttackCount()
     {
-        return $this->bb->getSbyte($this->bb_pos + 20);
+        return $this->bb->getSbyte($this->bb_pos + 48);
     }
 
     /**
@@ -75,7 +131,7 @@ class RmsAnimationInfo extends Struct
      */
     public function GetSkill1Count()
     {
-        return $this->bb->getSbyte($this->bb_pos + 21);
+        return $this->bb->getSbyte($this->bb_pos + 49);
     }
 
     /**
@@ -83,7 +139,7 @@ class RmsAnimationInfo extends Struct
      */
     public function GetSkill2Count()
     {
-        return $this->bb->getSbyte($this->bb_pos + 22);
+        return $this->bb->getSbyte($this->bb_pos + 50);
     }
 
     /**
@@ -91,16 +147,16 @@ class RmsAnimationInfo extends Struct
      */
     public function GetSkill3Count()
     {
-        return $this->bb->getSbyte($this->bb_pos + 23);
+        return $this->bb->getSbyte($this->bb_pos + 51);
     }
 
 
     /**
      * @return int offset
      */
-    public static function createRmsAnimationInfo(FlatBufferBuilder $builder, $name, $attackLength, $skill1Length, $skill2Length, $skill3Length, $attackCount, $skill1Count, $skill2Count, $skill3Count)
+    public static function createRmsAnimationInfo(FlatBufferBuilder $builder, $name, $appearLength, $stayLength, $idleLength, $runLength, $damageLength, $victoryLength, $deadLength, $attackLength, $skill1Length, $skill2Length, $skill3Length, $attackCount, $skill1Count, $skill2Count, $skill3Count)
     {
-        $builder->prep(4, 24);
+        $builder->prep(4, 52);
         $builder->putSbyte($skill3Count);
         $builder->putSbyte($skill2Count);
         $builder->putSbyte($skill1Count);
@@ -109,6 +165,13 @@ class RmsAnimationInfo extends Struct
         $builder->putFloat($skill2Length);
         $builder->putFloat($skill1Length);
         $builder->putFloat($attackLength);
+        $builder->putFloat($deadLength);
+        $builder->putFloat($victoryLength);
+        $builder->putFloat($damageLength);
+        $builder->putFloat($runLength);
+        $builder->putFloat($idleLength);
+        $builder->putFloat($stayLength);
+        $builder->putFloat($appearLength);
         $builder->pad(2);
         $builder->putShort($name);
         return $builder->offset();

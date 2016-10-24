@@ -22,9 +22,11 @@ public class RmsUnitStatic extends Struct {
   public float moveSpeed() { return bb.getFloat(bb_pos + 24); }
   public float attackCooltime() { return bb.getFloat(bb_pos + 28); }
   public float attackRange() { return bb.getFloat(bb_pos + 32); }
+  public float hpRegen() { return bb.getFloat(bb_pos + 36); }
 
-  public static int createRmsUnitStatic(FlatBufferBuilder builder, int order, byte type, short name, int minUserLevel, int price, short skill1, short skill2, short skill3, float moveSpeed, float attackCooltime, float attackRange) {
-    builder.prep(4, 36);
+  public static int createRmsUnitStatic(FlatBufferBuilder builder, int order, byte type, short name, int minUserLevel, int price, short skill1, short skill2, short skill3, float moveSpeed, float attackCooltime, float attackRange, float hpRegen) {
+    builder.prep(4, 40);
+    builder.putFloat(hpRegen);
     builder.putFloat(attackRange);
     builder.putFloat(attackCooltime);
     builder.putFloat(moveSpeed);

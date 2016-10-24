@@ -7,6 +7,7 @@ import com.clue.util.Version;
 public interface MetaService extends ServiceBase {
     int getVersion();
     RmsMetaSet getMetaSet();
+    byte[] getMetaSetBytes();
     RmsUnitStatic getUnitStatic(short name);
     RmsUnitBalance getUnitBalance(short name, int level);
     RmsSkillBalance getSkillBalance(short skillType, int level);

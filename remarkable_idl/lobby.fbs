@@ -21,6 +21,8 @@ enum RmbMessageType : byte {
     ResPlaylogList,
     ReqSetName,
     ResSetName,
+    ReqUseHero,
+    ResUseHero,
 }
 
 table RmbResError {
@@ -56,7 +58,7 @@ table RmbReqBuyHero {
 }
 
 table RmbResBuyHero {
-    heroes:RmHero;
+    hero:RmHero;
     assets:RmAssets;
 }
 
@@ -84,4 +86,13 @@ table RmbReqSetName {
 
 table RmbResSetName {
     name:string;
+}
+
+table RmbReqUseHero {
+    name:RmUnitName;
+}
+
+table RmbResUseHero {
+    name:RmUnitName;
+    lastPlay:long;
 }

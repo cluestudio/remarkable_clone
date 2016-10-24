@@ -46,13 +46,22 @@ class RmHero extends Struct
         return $this->bb->getLong($this->bb_pos + 8);
     }
 
+    /**
+     * @return long
+     */
+    public function GetLastPlay()
+    {
+        return $this->bb->getLong($this->bb_pos + 16);
+    }
+
 
     /**
      * @return int offset
      */
-    public static function createRmHero(FlatBufferBuilder $builder, $name, $skin, $birth)
+    public static function createRmHero(FlatBufferBuilder $builder, $name, $skin, $birth, $lastPlay)
     {
-        $builder->prep(8, 16);
+        $builder->prep(8, 24);
+        $builder->putLong($lastPlay);
         $builder->putLong($birth);
         $builder->putInt($skin);
         $builder->pad(2);

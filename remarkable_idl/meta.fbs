@@ -32,6 +32,7 @@ struct RmsUnitStatic {
     moveSpeed:float;
     attackCooltime:float;
     attackRange:float;
+    hpRegen:float;
 }
 
 struct RmsUnitBalance {
@@ -83,6 +84,13 @@ struct RmsLeagueBalance {
 
 struct RmsAnimationInfo {
     name:RmUnitName;
+    appearLength:float;
+    stayLength:float;
+    idleLength:float;
+    runLength:float;
+    damageLength:float;
+    victoryLength:float;
+    deadLength:float;
     attackLength:float;
     skill1Length:float;
     skill2Length:float;

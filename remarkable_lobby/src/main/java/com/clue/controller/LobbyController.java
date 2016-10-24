@@ -60,6 +60,7 @@ public class LobbyController {
             case RmbMessageType.ReqRouteMatch: matchRouteController.processReqRouteMatch(session, seqNo, buffer); break;
             case RmbMessageType.ReqPlaylogList: playlogController.processReqPlaylogList(session, seqNo, buffer); break;
             case RmbMessageType.ReqSetName: accountController.processSetName(session, seqNo, buffer); break;
+            case RmbMessageType.ReqUseHero: heroController.processReqUseHero(session, seqNo, buffer); break;
         }
     }
 

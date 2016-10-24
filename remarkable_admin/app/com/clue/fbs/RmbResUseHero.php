@@ -8,22 +8,22 @@ use \Google\FlatBuffers\Table;
 use \Google\FlatBuffers\ByteBuffer;
 use \Google\FlatBuffers\FlatBufferBuilder;
 
-class RmbResBuyHero extends Table
+class RmbResUseHero extends Table
 {
     /**
      * @param ByteBuffer $bb
-     * @return RmbResBuyHero
+     * @return RmbResUseHero
      */
-    public static function getRootAsRmbResBuyHero(ByteBuffer $bb)
+    public static function getRootAsRmbResUseHero(ByteBuffer $bb)
     {
-        $obj = new RmbResBuyHero();
+        $obj = new RmbResUseHero();
         return ($obj->init($bb->getInt($bb->getPosition()) + $bb->getPosition(), $bb));
     }
 
     /**
      * @param int $_i offset
      * @param ByteBuffer $_bb
-     * @return RmbResBuyHero
+     * @return RmbResUseHero
      **/
     public function init($_i, ByteBuffer $_bb)
     {
@@ -32,67 +32,71 @@ class RmbResBuyHero extends Table
         return $this;
     }
 
-    public function getHero()
+    /**
+     * @return short
+     */
+    public function getName()
     {
-        $obj = new RmHero();
         $o = $this->__offset(4);
-        return $o != 0 ? $obj->init($o + $this->bb_pos, $this->bb) : 0;
+        return $o != 0 ? $this->bb->getShort($o + $this->bb_pos) : \com\clue\fbs\RmUnitName::None;
     }
 
-    public function getAssets()
+    /**
+     * @return long
+     */
+    public function getLastPlay()
     {
-        $obj = new RmAssets();
         $o = $this->__offset(6);
-        return $o != 0 ? $obj->init($o + $this->bb_pos, $this->bb) : 0;
+        return $o != 0 ? $this->bb->getLong($o + $this->bb_pos) : 0;
     }
 
     /**
      * @param FlatBufferBuilder $builder
      * @return void
      */
-    public static function startRmbResBuyHero(FlatBufferBuilder $builder)
+    public static function startRmbResUseHero(FlatBufferBuilder $builder)
     {
         $builder->StartObject(2);
     }
 
     /**
      * @param FlatBufferBuilder $builder
-     * @return RmbResBuyHero
+     * @return RmbResUseHero
      */
-    public static function createRmbResBuyHero(FlatBufferBuilder $builder, $hero, $assets)
+    public static function createRmbResUseHero(FlatBufferBuilder $builder, $name, $lastPlay)
     {
         $builder->startObject(2);
-        self::addHero($builder, $hero);
-        self::addAssets($builder, $assets);
+        self::addName($builder, $name);
+        self::addLastPlay($builder, $lastPlay);
         $o = $builder->endObject();
         return $o;
     }
 
     /**
      * @param FlatBufferBuilder $builder
-     * @param int
+     * @param short
      * @return void
      */
-    public static function addHero(FlatBufferBuilder $builder, $hero)
+    public static function addName(FlatBufferBuilder $builder, $name)
     {
-        $builder->addStructX(0, $hero, 0);
+        $builder->addShortX(0, $name, 0);
     }
 
     /**
      * @param FlatBufferBuilder $builder
-     * @param int
+     * @param long
      * @return void
      */
-    public static function addAssets(FlatBufferBuilder $builder, $assets)
+    public static function addLastPlay(FlatBufferBuilder $builder, $lastPlay)
     {
-        $builder->addStructX(1, $assets, 0);
+        $builder->addLongX(1, $lastPlay, 0);
     }
 
     /**
      * @param FlatBufferBuilder $builder
      * @return int table offset
      */
-    public static function endRmbResBuyHero(FlatBufferBuilder $builder)
+    public static function endRmbResUseHero(FlatBufferBuilder $builder)
     {
         $o = $builder->endObject();
         return $o;

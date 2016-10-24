@@ -27,11 +27,11 @@ public class DamageCalculator {
 
         float damagePhysical = 0;
         damagePhysical = myBalance.physicalAttack() * scalar;
-        damagePhysical *= getReduceRate(enemyBalance.physicalDefense());
+        damagePhysical *= (1 - getReduceRate(enemyBalance.physicalDefense()));
 
         float damageMagical = 0;
         damageMagical = myBalance.magicalAttack() * scalar;
-        damageMagical *= getReduceRate(enemyBalance.magicalDefense());
+        damageMagical *= (1 - getReduceRate(enemyBalance.magicalDefense()));
         return (short)(damagePhysical + damageMagical);
     }
 

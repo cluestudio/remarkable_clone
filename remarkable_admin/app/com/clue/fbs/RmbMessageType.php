@@ -20,6 +20,8 @@ class RmbMessageType
     const ResPlaylogList = 12;
     const ReqSetName = 13;
     const ResSetName = 14;
+    const ReqUseHero = 15;
+    const ResUseHero = 16;
 
     private static $names = array(
         "Error",
@@ -37,6 +39,8 @@ class RmbMessageType
         "ResPlaylogList",
         "ReqSetName",
         "ResSetName",
+        "ReqUseHero",
+        "ResUseHero",
     );
 
     public static function Name($e)

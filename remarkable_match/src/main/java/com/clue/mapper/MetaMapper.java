@@ -31,6 +31,7 @@ public class MetaMapper {
             byte[] decodedBytes = row.getBinary(3);
             ByteBuffer buffer = ByteBuffer.wrap(decodedBytes);
             metaSet.data = RmsMetaSet.getRootAsRmsMetaSet(buffer);
+            metaSet.binary = decodedBytes;
             break;
         }
 

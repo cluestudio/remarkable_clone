@@ -1,5 +1,6 @@
 package com.clue.service;
 
+import com.clue.fbs.RmResultCode;
 import com.clue.util.DebugUtil;
 import com.clue.util.VoidHandler;
 import com.clue.mapper.AccountMapper;
@@ -83,7 +84,7 @@ public class AccountServiceImpl implements AccountService {
             });
         } catch (Exception e) {
             logger.error(DebugUtil.getStackTrace(e));
-            handler.handle(new AsyncResultError<>(new Throwable(e.toString())));
+            handler.handle(new AsyncResultError<>(RmResultCode.InternalError, e.toString()));
         }
     }
 
@@ -99,7 +100,7 @@ public class AccountServiceImpl implements AccountService {
             });
         } catch (Exception e) {
             logger.error(DebugUtil.getStackTrace(e));
-            handler.handle(new AsyncResultError<>(new Throwable(e.toString())));
+            handler.handle(new AsyncResultError<>(RmResultCode.InternalError, e.toString()));
         }
     }
 
@@ -116,7 +117,7 @@ public class AccountServiceImpl implements AccountService {
             });
         } catch (Exception e) {
             logger.error(DebugUtil.getStackTrace(e));
-            handler.handle(new AsyncResultError<>(new Throwable(e.toString())));
+            handler.handle(new AsyncResultError<>(RmResultCode.InternalError, e.toString()));
         }
     }
 
@@ -132,7 +133,7 @@ public class AccountServiceImpl implements AccountService {
             });
         } catch (Exception e) {
             logger.error(DebugUtil.getStackTrace(e));
-            handler.handle(new AsyncResultError<>(new Throwable(e.toString())));
+            handler.handle(new AsyncResultError<>(RmResultCode.InternalError, e.toString()));
         }
     }
 
@@ -148,7 +149,7 @@ public class AccountServiceImpl implements AccountService {
             });
         } catch (Exception e) {
             logger.error(DebugUtil.getStackTrace(e));
-            handler.handle(new AsyncResultError<>(new Throwable(e.toString())));
+            handler.handle(new AsyncResultError<>(RmResultCode.InternalError, e.toString()));
         }
     }
 
@@ -159,7 +160,7 @@ public class AccountServiceImpl implements AccountService {
     void run(Handler handler, AsyncResult result, VoidHandler runCallback) {
         if (result.failed()) {
             logger.error(result.cause());
-            handler.handle(new AsyncResultError<>(result.cause()));
+            handler.handle(new AsyncResultError<>(RmResultCode.DBError, result.cause().toString()));
             return;
         }
 
@@ -167,6 +168,7 @@ public class AccountServiceImpl implements AccountService {
             runCallback.handle();
         }
         catch (Exception e) {
+            handler.handle(new AsyncResultError<>(RmResultCode.InternalError, result.cause().toString()));
             logger.error(DebugUtil.getStackTrace(e));
         }
     }

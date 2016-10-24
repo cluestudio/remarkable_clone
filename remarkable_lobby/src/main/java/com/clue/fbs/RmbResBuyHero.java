@@ -13,13 +13,13 @@ public class RmbResBuyHero extends Table {
   public static RmbResBuyHero getRootAsRmbResBuyHero(ByteBuffer _bb, RmbResBuyHero obj) { _bb.order(ByteOrder.LITTLE_ENDIAN); return (obj.__init(_bb.getInt(_bb.position()) + _bb.position(), _bb)); }
   public RmbResBuyHero __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
-  public com.clue.fbs.RmHero heroes() { return heroes(new com.clue.fbs.RmHero()); }
-  public com.clue.fbs.RmHero heroes(com.clue.fbs.RmHero obj) { int o = __offset(4); return o != 0 ? obj.__init(o + bb_pos, bb) : null; }
+  public com.clue.fbs.RmHero hero() { return hero(new com.clue.fbs.RmHero()); }
+  public com.clue.fbs.RmHero hero(com.clue.fbs.RmHero obj) { int o = __offset(4); return o != 0 ? obj.__init(o + bb_pos, bb) : null; }
   public com.clue.fbs.RmAssets assets() { return assets(new com.clue.fbs.RmAssets()); }
   public com.clue.fbs.RmAssets assets(com.clue.fbs.RmAssets obj) { int o = __offset(6); return o != 0 ? obj.__init(o + bb_pos, bb) : null; }
 
   public static void startRmbResBuyHero(FlatBufferBuilder builder) { builder.startObject(2); }
-  public static void addHeroes(FlatBufferBuilder builder, int heroesOffset) { builder.addStruct(0, heroesOffset, 0); }
+  public static void addHero(FlatBufferBuilder builder, int heroOffset) { builder.addStruct(0, heroOffset, 0); }
   public static void addAssets(FlatBufferBuilder builder, int assetsOffset) { builder.addStruct(1, assetsOffset, 0); }
   public static int endRmbResBuyHero(FlatBufferBuilder builder) {
     int o = builder.endObject();

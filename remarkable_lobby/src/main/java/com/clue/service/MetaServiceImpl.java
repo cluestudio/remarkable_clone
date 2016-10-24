@@ -5,6 +5,7 @@ import com.clue.mapper.MetaMapper;
 import com.clue.model.*;
 import com.clue.util.Version;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
@@ -22,20 +23,39 @@ public class MetaServiceImpl implements MetaService {
     HashMap<Integer, RmsHeroRevival> heroRevival = new HashMap<>();
     HashMap<Integer, RmsExp4LevelUp> exp4LevelUp = new HashMap<>();
     HashMap<Integer, RmsLeagueBalance> leagueBalance= new HashMap<>();
+    HashMap<Short, AnimationInfo> animationInfo = new HashMap<>();
+    HashMap<Short, RmsUnitStatic> unitStatic= new HashMap<>();
     final int kMaxHeroLevel = 6;
     boolean ready = false;
     Version minClientVersion = new Version();
+    final String metaChanel = "remarkable-meta-channel";
 
     public boolean isReady() {
         return ready;
     }
 
     public void initialize(Vertx vertx) {
+        queryMeta();
+        vertx.eventBus().<JsonObject>consumer("io.vertx.redis." + metaChanel, received -> {
+            queryMeta();
+        });
+
+        Service.ps.getRedis().subscribe(metaChanel, res -> {
+            logger.info("subscribe success!");
+        });
+    }
+
+    public byte[] getMetaSetBytes() {
+        return metaSet.binary;
+    }
+
+    void queryMeta() {
         String db = Service.ps.getMetaDBName();
         Service.ps.queryAtMeta(mapper.getAllQuery(db), res -> {
             if (res.succeeded()) {
                 metaSet = mapper.parseMeta(res.result());
                 hashing();
+                logger.info("meta updated!");
                 ready = true;
             }
         });
@@ -102,6 +122,19 @@ public class MetaServiceImpl implements MetaService {
             leagueBalance.put(balance.league(), balance);
         }
 
+        // unit static
+        for (int index=0; index < set.unitStaticLength(); index++) {
+            RmsUnitStatic balance = set.unitStatic(index);
+            unitStatic.put(balance.name(), balance);
+        }
+
+        // animation info
+        for (int index=0; index < set.animationInfoLength(); index++) {
+            RmsAnimationInfo balance = set.animationInfo(index);
+            AnimationInfo info = new AnimationInfo(balance);
+            animationInfo.put(balance.name(), info);
+        }
+
         minClientVersion = new Version(set.variable().minVersion());
     }
 
@@ -113,16 +146,20 @@ public class MetaServiceImpl implements MetaService {
         return metaSet.data;
     }
 
-    public byte[] getMetaSetBytes() {
-        return metaSet.binary;
-    }
-
     public RmsUnitBalance getUnitBalance(short name, int level) {
         if (!unitBalance.containsKey(name)) {
             return null;
         }
 
         return unitBalance.get(name).get(level);
+    }
+
+    public RmsUnitStatic getUnitStatic(short name) {
+        if (unitStatic.containsKey(name)) {
+            return unitStatic.get(name);
+        }
+
+        return null;
     }
 
     public RmsSkillBalance getSkillBalance(short skillType, int level) {
@@ -188,6 +225,14 @@ public class MetaServiceImpl implements MetaService {
     public RmsLeagueBalance getLeagueBalance(int league) {
         if (leagueBalance.containsKey(league)) {
             return leagueBalance.get(league);
+        }
+
+        return null;
+    }
+
+    public AnimationInfo getAnimationInfo(short name) {
+        if (animationInfo.containsKey(name)) {
+            return animationInfo.get(name);
         }
 
         return null;

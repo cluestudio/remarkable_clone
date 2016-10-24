@@ -14,9 +14,11 @@ public class RmHero extends Struct {
   public short name() { return bb.getShort(bb_pos + 0); }
   public int skin() { return bb.getInt(bb_pos + 4); }
   public long birth() { return bb.getLong(bb_pos + 8); }
+  public long lastPlay() { return bb.getLong(bb_pos + 16); }
 
-  public static int createRmHero(FlatBufferBuilder builder, short name, int skin, long birth) {
-    builder.prep(8, 16);
+  public static int createRmHero(FlatBufferBuilder builder, short name, int skin, long birth, long lastPlay) {
+    builder.prep(8, 24);
+    builder.putLong(lastPlay);
     builder.putLong(birth);
     builder.putInt(skin);
     builder.pad(2);

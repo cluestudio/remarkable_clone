@@ -5,5 +5,5 @@ struct RmHero {
     name:RmUnitName;
     skin:int;
     birth:long;
+    lastPlay:long;
 }
-

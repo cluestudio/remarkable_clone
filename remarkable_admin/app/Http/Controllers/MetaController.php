@@ -22,6 +22,8 @@ use com\clue\fbs\RmsAnimationInfo;
 use com\clue\fbs\RmsVariable;
 use com\clue\fbs\RmsExp4LevelUp;
 
+use Illuminate\Support\Facades\Redis;
+
 class MetaController extends Controller {
     private $metaRepo;
     private $url = [];
@@ -74,7 +76,8 @@ class MetaController extends Controller {
                 $item->skill3, 
                 $item->moveSpeed, 
                 $item->attackCooltime, 
-                $item->attackRange);
+                $item->attackRange, 
+                $item->hpRegen);
         }
         $unitStatic = $builder->endVector();
 
@@ -165,6 +168,13 @@ class MetaController extends Controller {
             RmsAnimationInfo::createRmsAnimationInfo(
                 $builder, 
                 $item->name, 
+                $item->appearLength,
+                $item->stayLength,
+                $item->idleLength,
+                $item->runLength,
+                $item->damageLength,
+                $item->victoryLength,
+                $item->deadLength,
                 $item->attackLength,
                 $item->skill1Length,
                 $item->skill2Length,
@@ -196,6 +206,8 @@ class MetaController extends Controller {
 
         $data = $builder->dataBuffer()->data();
         $this->metaRepo->newMeta(time(), 'mark', $data);
+
+        Redis::publish('remarkable-meta-channel', json_encode(['type' => 'deploy']));
         return $this->metaList();
     }
 
@@ -289,13 +301,14 @@ class MetaController extends Controller {
                         'type' => constant('com\clue\fbs\RmUnitType::'.$row[1]),
                         'name' => constant('com\clue\fbs\RmUnitName::'.$row[2]),
                         'minUserLevel' => $this->toInt($row[3]), 
-                        'price' => $this->toInt($row[3]), 
-                        'skill1' => constant('com\clue\fbs\RmSkillType::'.$row[4]),
-                        'skill2' => constant('com\clue\fbs\RmSkillType::'.$row[5]),
-                        'skill3' => constant('com\clue\fbs\RmSkillType::'.$row[6]),
-                        'moveSpeed' => $this->toFloat($row[7]), 
-                        'attackCooltime' => $this->toFloat($row[8]), 
-                        'attackRange' => $this->toFloat($row[9])
+                        'price' => $this->toInt($row[4]), 
+                        'skill1' => constant('com\clue\fbs\RmSkillType::'.$row[5]),
+                        'skill2' => constant('com\clue\fbs\RmSkillType::'.$row[6]),
+                        'skill3' => constant('com\clue\fbs\RmSkillType::'.$row[7]),
+                        'moveSpeed' => $this->toFloat($row[8]), 
+                        'attackCooltime' => $this->toFloat($row[9]), 
+                        'attackRange' => $this->toFloat($row[10]),
+                        'hpRegen' => $this->toFloat($row[11])
                     ];
                 case "UnitBalance":
                     return [
@@ -310,14 +323,21 @@ class MetaController extends Controller {
                 case "AnimationInfo":
                     return [
                         'name' => $this->toInt($row[0]),
-                        'attackLength' => $this->toInt($row[1]), 
-                        'skill1Length' => $this->toFloat($row[2]), 
-                        'skill2Length' => $this->toFloat($row[3]), 
-                        'skill3Length' => $this->toFloat($row[4]), 
-                        'attackCount' => $this->toInt($row[5]), 
-                        'skill1Count' => $this->toInt($row[6]),
-                        'skill2Count' => $this->toInt($row[7]),
-                        'skill3Count' => $this->toInt($row[8])
+                        'appearLength' => $this->toInt($row[1]), 
+                        'stayLength' => $this->toFloat($row[2]), 
+                        'idleLength' => $this->toFloat($row[3]), 
+                        'runLength' => $this->toFloat($row[4]), 
+                        'damageLength' => $this->toInt($row[5]), 
+                        'victoryLength' => $this->toFloat($row[6]), 
+                        'deadLength' => $this->toFloat($row[7]), 
+                        'attackLength' => $this->toInt($row[8]), 
+                        'skill1Length' => $this->toFloat($row[9]), 
+                        'skill2Length' => $this->toFloat($row[10]), 
+                        'skill3Length' => $this->toFloat($row[11]), 
+                        'attackCount' => $this->toInt($row[12]), 
+                        'skill1Count' => $this->toInt($row[13]),
+                        'skill2Count' => $this->toInt($row[14]),
+                        'skill3Count' => $this->toInt($row[15])
                     ];                    
                 case "LeagueBalance":
                     return [

@@ -9,6 +9,8 @@ enum RmResultCode : int {
     NotEnoughGold = 5,
     NotEnoughRuby = 6,
     OldVersion = 7,
+    InternalError = 8,
+    InsufficientLevel = 9,
 }
 
 enum RmUnitType : byte {

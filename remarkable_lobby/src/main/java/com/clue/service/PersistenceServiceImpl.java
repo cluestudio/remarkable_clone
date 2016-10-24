@@ -1,5 +1,6 @@
 package com.clue.service;
 
+import com.clue.fbs.RmResultCode;
 import com.clue.mapper.ConfigMapper;
 import com.clue.model.AsyncResultError;
 import io.vertx.core.AsyncResult;
@@ -13,6 +14,7 @@ import io.vertx.ext.asyncsql.AsyncSQLClient;
 import io.vertx.ext.asyncsql.MySQLClient;
 import io.vertx.ext.sql.ResultSet;
 import io.vertx.ext.sql.SQLConnection;
+import io.vertx.ext.sql.UpdateResult;
 import io.vertx.redis.RedisClient;
 import io.vertx.redis.RedisOptions;
 
@@ -150,16 +152,25 @@ public class PersistenceServiceImpl implements PersistenceService {
 
     public void queryAtData(int shardNo, String sql, Handler<AsyncResult<ResultSet>> resultHandler) {
         if (shardNo < 0 || shardNo >= dataDBOpt.size()) {
-            resultHandler.handle(new AsyncResultError<>(new Throwable("invalid shard no")));
+            resultHandler.handle(new AsyncResultError<>(RmResultCode.InternalError, "invalid shard no"));
             return;
         }
 
         queryAt(dataDB(shardNo), sql, true, resultHandler);
     }
 
+    public void updateAtData(int shardNo, String sql, Handler<AsyncResult<UpdateResult>> resultHandler) {
+        if (shardNo < 0 || shardNo >= dataDBOpt.size()) {
+            resultHandler.handle(new AsyncResultError<>(RmResultCode.InternalError, "invalid shard no"));
+            return;
+        }
+
+        updateAt(dataDB(shardNo), sql, true, resultHandler);
+    }
+
     public void queryAtPlaylogs(int shardNo, String sql, Handler<AsyncResult<ResultSet>> resultHandler) {
         if (shardNo < 0 || shardNo >= playlogDBOpt.size()) {
-            resultHandler.handle(new AsyncResultError<>(new Throwable("invalid shard no")));
+            resultHandler.handle(new AsyncResultError<>(RmResultCode.InternalError, "invalid shard no"));
             return;
         }
 
@@ -210,9 +221,32 @@ public class PersistenceServiceImpl implements PersistenceService {
                     resultHandler.handle(resultSetAsyncResult);
                     connection.close();
                 });
+
+
             } else {
                 logger.error("get connection failed:" + res.cause().toString());
-                resultHandler.handle(new AsyncResultError<>(res.cause()));
+                resultHandler.handle(new AsyncResultError<>(RmResultCode.DBError, res.cause().toString()));
+            }
+        });
+    }
+
+    void updateAt(AsyncSQLClient db, String sql, boolean needLog, Handler<AsyncResult<UpdateResult>> resultHandler) {
+        if (needLog) {
+            logger.info(sql);
+        }
+
+        db.getConnection(res -> {
+            if (res.succeeded()) {
+                SQLConnection connection = res.result();
+                connection.update(sql, resultSetAsyncResult-> {
+                    resultHandler.handle(resultSetAsyncResult);
+                    connection.close();
+                });
+
+
+            } else {
+                logger.error("get connection failed:" + res.cause().toString());
+                resultHandler.handle(new AsyncResultError<>(RmResultCode.DBError, res.cause().toString()));
             }
         });
     }

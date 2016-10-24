@@ -14,7 +14,7 @@ public class RmbResHeroes extends Table {
   public RmbResHeroes __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public com.clue.fbs.RmHero heroes(int j) { return heroes(new com.clue.fbs.RmHero(), j); }
-  public com.clue.fbs.RmHero heroes(com.clue.fbs.RmHero obj, int j) { int o = __offset(4); return o != 0 ? obj.__init(__vector(o) + j * 16, bb) : null; }
+  public com.clue.fbs.RmHero heroes(com.clue.fbs.RmHero obj, int j) { int o = __offset(4); return o != 0 ? obj.__init(__vector(o) + j * 24, bb) : null; }
   public int heroesLength() { int o = __offset(4); return o != 0 ? __vector_len(o) : 0; }
 
   public static int createRmbResHeroes(FlatBufferBuilder builder,
@@ -26,7 +26,7 @@ public class RmbResHeroes extends Table {
 
   public static void startRmbResHeroes(FlatBufferBuilder builder) { builder.startObject(1); }
   public static void addHeroes(FlatBufferBuilder builder, int heroesOffset) { builder.addOffset(0, heroesOffset, 0); }
-  public static void startHeroesVector(FlatBufferBuilder builder, int numElems) { builder.startVector(16, numElems, 8); }
+  public static void startHeroesVector(FlatBufferBuilder builder, int numElems) { builder.startVector(24, numElems, 8); }
   public static int endRmbResHeroes(FlatBufferBuilder builder) {
     int o = builder.endObject();
     return o;

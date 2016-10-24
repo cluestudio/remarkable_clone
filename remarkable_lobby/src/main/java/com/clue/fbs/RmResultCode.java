@@ -12,8 +12,10 @@ public class RmResultCode {
   public static final int NotEnoughGold = 5;
   public static final int NotEnoughRuby = 6;
   public static final int OldVersion = 7;
+  public static final int InternalError = 8;
+  public static final int InsufficientLevel = 9;
 
-  public static final String[] names = { "Success", "DBError", "NotExist", "AlreadyExist", "NoAsset", "NotEnoughGold", "NotEnoughRuby", "OldVersion", };
+  public static final String[] names = { "Success", "DBError", "NotExist", "AlreadyExist", "NoAsset", "NotEnoughGold", "NotEnoughRuby", "OldVersion", "InternalError", "InsufficientLevel", };
 
   public static String name(int e) { return names[e]; }
 }

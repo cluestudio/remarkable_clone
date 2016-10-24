@@ -3,10 +3,18 @@ package com.clue.model;
 import io.vertx.core.AsyncResult;
 
 public class AsyncResultError<T> implements AsyncResult<T> {
+    int resultCode;
     Throwable error = null;
-    public AsyncResultError(Throwable error) {
-        this.error = error;
+
+    public AsyncResultError(int resultCode, String errorMessage) {
+        this.error = new Throwable(errorMessage);
+        this.resultCode = resultCode;
     }
+
+    public int getResultCode() {
+        return resultCode;
+    }
+
     @Override
     public T result() {
         return null;

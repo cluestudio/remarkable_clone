@@ -19,8 +19,10 @@ public class RmbMessageType {
   public static final byte ResPlaylogList = 12;
   public static final byte ReqSetName = 13;
   public static final byte ResSetName = 14;
+  public static final byte ReqUseHero = 15;
+  public static final byte ResUseHero = 16;
 
-  public static final String[] names = { "Error", "Ping", "Pong", "ReqLogin", "ResLogin", "ReqHeroes", "ResHeroes", "ReqBuyHero", "ResBuyHero", "ReqRouteMatch", "ResRouteMatch", "ReqPlaylogList", "ResPlaylogList", "ReqSetName", "ResSetName", };
+  public static final String[] names = { "Error", "Ping", "Pong", "ReqLogin", "ResLogin", "ReqHeroes", "ResHeroes", "ReqBuyHero", "ResBuyHero", "ReqRouteMatch", "ResRouteMatch", "ReqPlaylogList", "ResPlaylogList", "ReqSetName", "ResSetName", "ReqUseHero", "ResUseHero", };
 
   public static String name(int e) { return names[e]; }
 }

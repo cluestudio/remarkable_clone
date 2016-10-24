@@ -17,7 +17,7 @@ public class RmsMetaSet extends Table {
   public RmsExp4LevelUp exp4LevelUp(RmsExp4LevelUp obj, int j) { int o = __offset(4); return o != 0 ? obj.__init(__vector(o) + j * 8, bb) : null; }
   public int exp4LevelUpLength() { int o = __offset(4); return o != 0 ? __vector_len(o) : 0; }
   public RmsUnitStatic unitStatic(int j) { return unitStatic(new RmsUnitStatic(), j); }
-  public RmsUnitStatic unitStatic(RmsUnitStatic obj, int j) { int o = __offset(6); return o != 0 ? obj.__init(__vector(o) + j * 36, bb) : null; }
+  public RmsUnitStatic unitStatic(RmsUnitStatic obj, int j) { int o = __offset(6); return o != 0 ? obj.__init(__vector(o) + j * 40, bb) : null; }
   public int unitStaticLength() { int o = __offset(6); return o != 0 ? __vector_len(o) : 0; }
   public RmsUnitBalance unitBalance(int j) { return unitBalance(new RmsUnitBalance(), j); }
   public RmsUnitBalance unitBalance(RmsUnitBalance obj, int j) { int o = __offset(8); return o != 0 ? obj.__init(__vector(o) + j * 28, bb) : null; }
@@ -41,7 +41,7 @@ public class RmsMetaSet extends Table {
   public RmsLeagueBalance leagueBalance(RmsLeagueBalance obj, int j) { int o = __offset(20); return o != 0 ? obj.__init(__vector(o) + j * 12, bb) : null; }
   public int leagueBalanceLength() { int o = __offset(20); return o != 0 ? __vector_len(o) : 0; }
   public RmsAnimationInfo animationInfo(int j) { return animationInfo(new RmsAnimationInfo(), j); }
-  public RmsAnimationInfo animationInfo(RmsAnimationInfo obj, int j) { int o = __offset(22); return o != 0 ? obj.__init(__vector(o) + j * 24, bb) : null; }
+  public RmsAnimationInfo animationInfo(RmsAnimationInfo obj, int j) { int o = __offset(22); return o != 0 ? obj.__init(__vector(o) + j * 52, bb) : null; }
   public int animationInfoLength() { int o = __offset(22); return o != 0 ? __vector_len(o) : 0; }
   public RmsVariable variable() { return variable(new RmsVariable()); }
   public RmsVariable variable(RmsVariable obj) { int o = __offset(24); return o != 0 ? obj.__init(__indirect(o + bb_pos), bb) : null; }
@@ -77,7 +77,7 @@ public class RmsMetaSet extends Table {
   public static void addExp4LevelUp(FlatBufferBuilder builder, int exp4LevelUpOffset) { builder.addOffset(0, exp4LevelUpOffset, 0); }
   public static void startExp4LevelUpVector(FlatBufferBuilder builder, int numElems) { builder.startVector(8, numElems, 4); }
   public static void addUnitStatic(FlatBufferBuilder builder, int unitStaticOffset) { builder.addOffset(1, unitStaticOffset, 0); }
-  public static void startUnitStaticVector(FlatBufferBuilder builder, int numElems) { builder.startVector(36, numElems, 4); }
+  public static void startUnitStaticVector(FlatBufferBuilder builder, int numElems) { builder.startVector(40, numElems, 4); }
   public static void addUnitBalance(FlatBufferBuilder builder, int unitBalanceOffset) { builder.addOffset(2, unitBalanceOffset, 0); }
   public static void startUnitBalanceVector(FlatBufferBuilder builder, int numElems) { builder.startVector(28, numElems, 4); }
   public static void addAbnormalBalance(FlatBufferBuilder builder, int abnormalBalanceOffset) { builder.addOffset(3, abnormalBalanceOffset, 0); }
@@ -93,7 +93,7 @@ public class RmsMetaSet extends Table {
   public static void addLeagueBalance(FlatBufferBuilder builder, int leagueBalanceOffset) { builder.addOffset(8, leagueBalanceOffset, 0); }
   public static void startLeagueBalanceVector(FlatBufferBuilder builder, int numElems) { builder.startVector(12, numElems, 4); }
   public static void addAnimationInfo(FlatBufferBuilder builder, int animationInfoOffset) { builder.addOffset(9, animationInfoOffset, 0); }
-  public static void startAnimationInfoVector(FlatBufferBuilder builder, int numElems) { builder.startVector(24, numElems, 4); }
+  public static void startAnimationInfoVector(FlatBufferBuilder builder, int numElems) { builder.startVector(52, numElems, 4); }
   public static void addVariable(FlatBufferBuilder builder, int variableOffset) { builder.addOffset(10, variableOffset, 0); }
   public static int endRmsMetaSet(FlatBufferBuilder builder) {
     int o = builder.endObject();
